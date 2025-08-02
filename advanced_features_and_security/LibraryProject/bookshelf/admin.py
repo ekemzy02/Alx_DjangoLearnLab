@@ -1,19 +1,36 @@
 from django.contrib import admin
+from .models import Book
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser  # Make sure you import CustomUser from your models
+from .models import CustomUser
 
-# Define a custom admin class for your CustomUser model if not already defined
+class BookAdmin(admin.ModelAdmin):
+ # Fields to display in the list view
+    list_display = ('title', 'author', 'publication_year')
+    
+    # Add filters for the admin interface
+    list_filter = ('author', 'publication_year')
+    
+    # Enable search functionality
+    search_fields = ('title', 'author')
+
 class CustomUserAdmin(UserAdmin):
-    # You can customize the admin interface here.
-    # For example, define which fields to display in the list view:
-    list_display = ("username", "email", "first_name", "last_name", "is_staff")
-    list_filter = ("is_staff", "is_superuser", "is_active", "groups")
-    search_fields = ("username", "email", "first_name", "last_name")
-    ordering = ("username",)
-    filter_horizontal = (
-        "groups",
-        "user_permissions",
+    model = CustomUser
+    list_display = ('username', 'email', 'date_of_birth', 'profile_photo', 'is_staff', 'is_active')
+    list_filter = ('is_staff', 'is_active')
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'date_of_birth', 'profile_photo')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
-
-# Register the CustomUser model with the custom admin class
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'date_of_birth', 'profile_photo', 'is_active', 'is_staff')}
+        ),
+    )
+    search_fields = ('username',)
+    ordering = ('username',)
+# Register your models here.
+admin.site.register(Book, BookAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)

@@ -16,13 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from bookshelf import views
 
 urlpatterns = [
-    path("", views.book_list, name="home"),
-    path("admin/", admin.site.urls),
-    path("books/", views.book_list, name="book_list"),
-    path("books/edit<int:book_id>/", views.edit_book, name="edit_book"),
-    path("books/add/", views.add_book, name="add_book"),  # Add this line
-    path("current-user/", views.current_user_view),
+    path('admin/', admin.site.urls),
 ]

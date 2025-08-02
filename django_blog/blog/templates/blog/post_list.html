@@ -1,20 +1,15 @@
+<!-- blog/templates/blog/post_list.html -->
 {% extends 'blog/base.html' %}
+
 {% block content %}
-  <h2>All Blog Posts</h2>
-  <a href="{% url 'post-create' %}" class="btn btn-primary">Create New Post</a>
-  <hr>
-  
-  {% if tag %}
-    <h3>Posts tagged with "{{ tag.name }}"</h3>
-  {% endif %}
-  
-  {% for post in posts %}
-    <article>
-      <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h3>
-      <p>{{ post.content|slice:":200" }}...</p>
-      <p><small>Posted by {{ post.author }} on {{ post.date_posted }}</small></p>
-    </article>
-  {% empty %}
-    <p>No posts found.</p>
-  {% endfor %}
+  <h2>Blog Posts</h2>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h3>
+        <p>{{ post.content|slice:":100" }}...</p>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'post-create' %}">Create New Post</a>
 {% endblock %}
