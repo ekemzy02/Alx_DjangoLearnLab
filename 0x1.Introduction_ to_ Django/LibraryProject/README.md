@@ -1,1 +1,1 @@
-Introduction to Django
+Introduction to Django amd its not empty
